@@ -1,0 +1,15 @@
+#pragma once
+
+namespace beluga
+{
+    enum tls_extension_type
+    {
+	TLS_SERVER_NAME = 0x0000,
+	TLS_EC_POINT_FORMATS = 0x000b,
+	TLS_ELLIPTIC_CURVES = 0x000a,
+	TLS_SESSION_TICKET = 0x0023,
+	TLS_SIGNATURE_ALGORITHMS = 0x000d,
+	TLS_ENCRYPT_THEN_MAC = 0x0016,
+	TLS_EXTENDED_MASTER_SECRET = 0x0017,
+    };
+}
