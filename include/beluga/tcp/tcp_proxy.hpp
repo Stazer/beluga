@@ -10,7 +10,7 @@ namespace beluga
     class tcp_proxy
     {
     public:
-	/**
+	/*
 	   Creates a new tcp_proxy object
 
 	   @param io_service Reference to an io service object
@@ -18,7 +18,7 @@ namespace beluga
 	*/
 	tcp_proxy(boost::asio::io_service& io_service, const boost::asio::ip::tcp::endpoint& endpoint);
 
-	/**
+	/*
 	   Default destructor
 	*/
 	virtual ~tcp_proxy() = default;

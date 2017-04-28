@@ -36,21 +36,29 @@ namespace beluga
 	static_buffer& get_server_buffer();
 	const static_buffer& get_server_buffer() const;
 
-	/**
-	 * Tunnels incomming traffic of from_socket to to_socket, calling various event functions
-	 * Make sure that both sockets are open
-	 *
-	 * @param from_socket Socket for incomming traffic
-	 * @param to_socket Socket for outgoing traffic
-	 * @param on_read Function that gets called when traffic was read from from_socket
-	 * @param on_on_read_error Function that gets called when an error occured on reading from from_socket
-	 * @param on_write Function that gets called when incomming traffic was written to to_socket
-	 * @param on_write_error Function that gets called when an error occured on writing to to_socket
-	 * @param loop Function that gets called after one tunnel cycle (reading into buffer and writing its content) was executed 
+	/*
+	   Tunnels incomming traffic of from_socket to to_socket, calling various event functions
+	   Make sure that both sockets are open
+	   
+	   @param from_socket Socket for incomming traffic
+	   @param to_socket Socket for outgoing traffic
+	   @param on_read Function that gets called when traffic was read from from_socket
+	   @param on_on_read_error Function that gets called when an error occured on reading from from_socket
+	   @param on_write Function that gets called when incomming traffic was written to to_socket
+	   @param on_write_error Function that gets called when an error occured on writing to to_socket
+	   @param loop Function that gets called after one tunnel cycle (reading into buffer and writing its content) was executed 
+	   @param buffer Buffer which is used for storing temporary data
 	 */
         void tunnel_socket(boost::asio::ip::tcp::socket& from_socket, boost::asio::ip::tcp::socket& to_socket, on_read_type on_read, on_read_error_type on_read_error, on_write_type on_write, on_write_error_type on_write_error, loop_type, static_buffer& buffer);
 
+	/*
+	  Tunnels all data received by the client to the server
+	 */
         void tunnel_client();
+
+	/*
+	  Tunnels all data received by the server to the client 
+	 */
 	void tunnel_server();
 
 	virtual void go();	
