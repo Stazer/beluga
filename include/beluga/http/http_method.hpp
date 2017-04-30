@@ -2,7 +2,7 @@
 
 namespace beluga
 {
-    enum http_methods
+    enum http_method
     {
 	HTTP_GET,
 	HTTP_POST,
