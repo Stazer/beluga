@@ -1,7 +1,7 @@
 template <typename iterator_type>
 template <typename container_type>
 beluga::protocol_reader<iterator_type>::protocol_reader(const container_type& container):
-    protocol_reader(container.begin(), container.end())
+    protocol_reader(std::begin(container), std::end(container))
 {
 }
 template <typename iterator_type>
