@@ -1,17 +1,24 @@
 #pragma once
 
+#include <string>
+
 namespace beluga
 {
-    enum http_method
+    enum class http_method
     {
-	HTTP_GET,
-	HTTP_POST,
-	HTTP_HEAD,
-	HTTP_PATCH,
-	HTTP_PUT,
-	HTTP_DELETE,
-	HTTP_CONNECT,
-	HTTP_OPTIONS,
-	HTTP_TRACE,	
+	GET,
+	POST,
+	HEAD,
+	PATCH,
+	PUT,
+	DELETE,
+	CONNECT,
+	OPTIONS,
+	TRACE,	
+
+	UNKNOWN
     };
-}
+
+    http_method to_http_method(const std::string& string);
+    std::string to_string(http_method method);
+ }
