@@ -1,9 +1,11 @@
 #pragma once
 
+#include <beluga/protocol/protocol_reader.hpp>
+
 namespace beluga
 {
     template <typename iterator_type>
-    class tls_reader
+    class tls_reader : public protocol_reader<iterator_type>
     {
     public:
 	template <typename container_type>
@@ -18,12 +20,6 @@ namespace beluga
 	bool read_cipher_suites(tls_client_hello::cipher_suites_type& cipher_suites, bool check_length = true);
 	bool read_compression_methods(tls_client_hello::compression_methods_type& compression_methods, bool check_length = true);
 	bool read_extensions(tls_client_hello::extensions_type& extensions, bool check_length = true);
-	
-	bool has_minimum_length(std::size_t length);
-	
-    private:
-	buffer_reader<iterator_type> reader;
-	iterator_type to;
     };    
 }
 
