@@ -16,6 +16,7 @@ namespace beluga
 	
 	bool has_minimum_length(std::size_t length);
 
+    protected:
 	buffer_reader<iterator_type>& get_reader();
 	iterator_type get_to();
 	
