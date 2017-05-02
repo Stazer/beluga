@@ -6,9 +6,9 @@ namespace beluga
 {
     enum class http_version
     {
-	HTTP_1_0,
-	HTTP_1_1,
-	HTTP_2_0,
+	_1_0,
+	_1_1,
+	_2_0,
 	    
 	UNKNOWN,
     };
