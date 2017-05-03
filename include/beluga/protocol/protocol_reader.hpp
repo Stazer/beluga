@@ -1,6 +1,7 @@
 #pragma once
 
 #include <beluga/buffer/buffer_reader.hpp>
+#include <algorithm>
 
 namespace beluga
 {
@@ -14,14 +15,18 @@ namespace beluga
 
 	virtual ~protocol_reader() = default;
 	
-	bool has_minimum_length(std::size_t length);
-
+	bool has_minimum_length(std::size_t length) const;
+	
     protected:
 	buffer_reader<iterator_type>& get_reader();
+	
+	iterator_type get_from();
 	iterator_type get_to();
 	
     private:
 	buffer_reader<iterator_type> reader;
+
+	iterator_type from;
 	iterator_type to;
     };    
 }
