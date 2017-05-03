@@ -15,7 +15,6 @@ namespace beluga
 	
 	using iterator = map_type::iterator;
 	using const_iterator = map_type::const_iterator;
-	    
 	
 	http_headers(const map_type& map = map_type());
 
