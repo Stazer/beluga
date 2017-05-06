@@ -1,7 +1,8 @@
 #pragma once
 
-#include <beluga/tcp/tcp_session.hpp>
-#include <beluga/tcp/tcp_proxy.hpp>
-#include <beluga/tcp/tcp_buffered_session.hpp>
-#include <beluga/tcp/tcp_fixed_session.hpp>
-#include <beluga/tcp/tcp_fixed_proxy.hpp>
+#include <beluga/tcp/tcp_accept_event.hpp>
+#include <beluga/tcp/tcp_accept_error_event.hpp>
+#include <beluga/tcp/tcp_receive_event.hpp>
+#include <beluga/tcp/tcp_receive_error_event.hpp>
+#include <beluga/tcp/tcp_server.hpp>
+#include <beluga/tcp/tcp_client.hpp>

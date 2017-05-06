@@ -37,6 +37,10 @@ void beluga::tcp_server::accept()
 			      }
 			  });
 }
+void beluga::tcp_server::go()
+{
+    accept();
+}
 
 void beluga::tcp_server::on_accept(tcp_accept_event& event)
 {

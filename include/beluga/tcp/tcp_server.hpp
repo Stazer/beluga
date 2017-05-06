@@ -25,6 +25,7 @@ namespace beluga
 	const boost::asio::ip::tcp::acceptor& get_acceptor() const;
 	
 	void accept();
+	void go();
 	
 	virtual void on_accept(tcp_accept_event& event);
 	virtual void on_accept_error(tcp_accept_error_event& event);

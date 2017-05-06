@@ -25,6 +25,7 @@ namespace beluga
 	static std::shared_ptr<tcp_client> create(boost::asio::ip::tcp::socket& socket);
 	
 	void receive();
+	void go();
 	
 	virtual void on_receive(tcp_receive_event& event);
 	virtual void on_receive_error(tcp_receive_error_event& event);

@@ -38,6 +38,10 @@ void beluga::tcp_client::receive()
 				     }
 				 });
 }
+void beluga::tcp_client::go()
+{
+    receive();
+}
 
 void beluga::tcp_client::on_receive(tcp_receive_event& event)
 {
