@@ -18,15 +18,14 @@ const boost::asio::ip::tcp::socket& beluga::tcp_client::get_socket() const
 void beluga::tcp_client::receive()
 {
     auto self = shared_from_this();
-    auto buffer = std::make_shared<std::vector<std::uint8_t>>();
-    buffer->resize(1024, 0);
+    auto buffer = std::make_shared<dynamic_buffer>(1024, 0);
     
-    get_socket().async_read_some(boost::asio::buffer(*buffer, 1024),
+    get_socket().async_read_some(boost::asio::buffer(*buffer, buffer->size()),
 				 [self, buffer] (boost::system::error_code error_code, std::size_t length)
 				 {
 				     if(!error_code)
 				     {
-					 tcp_receive_event event(true);
+					 tcp_receive_event event(true, *buffer);
 					 self->on_receive(event);
 
 					 if(event.get_receive())
