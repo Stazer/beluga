@@ -22,7 +22,7 @@ namespace beluga
 	boost::asio::ip::tcp::socket& get_socket();
 	const boost::asio::ip::tcp::socket& get_socket() const;
 		
-	static std::shared_ptr<tcp_client> create(boost::asio::ip::tcp::socket socket);
+	static std::shared_ptr<tcp_client> create(boost::asio::ip::tcp::socket& socket);
 	
 	void receive();
 	
@@ -33,7 +33,7 @@ namespace beluga
 	on_receive_error_signal_type on_receive_error_signal;
 
     private:
-	tcp_client(boost::asio::ip::tcp::socket socket);
+	tcp_client(boost::asio::ip::tcp::socket& socket);
 
 	boost::asio::ip::tcp::socket socket;
     };

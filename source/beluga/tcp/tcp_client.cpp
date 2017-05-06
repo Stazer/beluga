@@ -1,8 +1,9 @@
 #include <beluga/tcp/tcp_client.hpp>
 
-std::shared_ptr<beluga::tcp_client> beluga::tcp_client::create(boost::asio::ip::tcp::socket socket)
+std::shared_ptr<beluga::tcp_client> beluga::tcp_client::create(boost::asio::ip::tcp::socket& socket)
 {
-    return std::shared_ptr<tcp_client>(new tcp_client(std::move(socket)));
+    // TODO std::make_shared
+    return std::shared_ptr<tcp_client>(new tcp_client(socket));
 }
 
 boost::asio::ip::tcp::socket& beluga::tcp_client::get_socket()
@@ -48,7 +49,7 @@ void beluga::tcp_client::on_receive_error(tcp_receive_error_event& event)
     on_receive_error_signal(event);
 }
 
-beluga::tcp_client::tcp_client(boost::asio::ip::tcp::socket socket):
+beluga::tcp_client::tcp_client(boost::asio::ip::tcp::socket& socket):
     socket(std::move(socket))
 {
 }
