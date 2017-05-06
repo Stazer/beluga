@@ -2,6 +2,7 @@
 
 std::shared_ptr<beluga::tcp_server> beluga::tcp_server::create(boost::asio::io_service& io_service, const boost::asio::ip::tcp::endpoint& endpoint)
 {
+    // TODO std::make_shared
     return std::shared_ptr<beluga::tcp_server>(new tcp_server(io_service, endpoint));
 }
 
