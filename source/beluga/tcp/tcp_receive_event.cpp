@@ -1,18 +1,9 @@
 #include <beluga/tcp/tcp_receive_event.hpp>
 
-beluga::tcp_receive_event::tcp_receive_event(bool receive, const dynamic_buffer& buffer):
-    receive(receive),
+beluga::tcp_receive_event::tcp_receive_event(bool _continue, const dynamic_buffer& buffer):
+    continue_event(_continue),
     buffer(buffer)
 {
-}
-
-void beluga::tcp_receive_event::set_receive(bool receive)
-{
-    this->receive = receive;
-}
-bool beluga::tcp_receive_event::get_receive() const
-{
-    return receive;
 }
 
 void beluga::tcp_receive_event::set_buffer(const dynamic_buffer& buffer)

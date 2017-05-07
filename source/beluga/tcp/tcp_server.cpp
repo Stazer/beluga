@@ -27,7 +27,7 @@ void beluga::tcp_server::accept()
 				  tcp_accept_event event(true, std::move(*socket));
 				  self->on_accept(event);
 				  
-				  if(event.get_accept())
+				  if(event.get_continue())
 				      self->accept();
 			      }
 			      else

@@ -15,6 +15,15 @@ const boost::asio::ip::tcp::socket& beluga::tcp_client::get_socket() const
     return socket;
 }
 
+void beluga::tcp_client::connect(const boost::asio::ip::tcp::endpoint& endpoint)
+{
+    auto self = shared_from_this();
+
+    get_socket().async_connect(endpoint, [self] (boost::system::error_code error_code)
+			       {
+				   
+			       });
+}
 void beluga::tcp_client::receive()
 {
     auto self = shared_from_this();
@@ -28,7 +37,7 @@ void beluga::tcp_client::receive()
 					 tcp_receive_event event(true, *buffer);
 					 self->on_receive(event);
 
-					 if(event.get_receive())
+					 if(event.get_continue())
 					     self->receive();
 				     }
 				     else
