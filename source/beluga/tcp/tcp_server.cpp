@@ -19,32 +19,43 @@ void beluga::tcp_server::accept()
 {
     auto self = shared_from_this();
     auto socket = std::make_shared<boost::asio::ip::tcp::socket>(acceptor.get_io_service());
-    
-    acceptor.async_accept(*socket, [self, socket] (boost::system::error_code error_code)
-			  {
-			      if(!error_code)
+
+    tcp_pre_accept_event event(true);
+    on_pre_accept(event);
+
+    if(event.get_continue())
+    {
+	acceptor.async_accept(*socket, [self, socket] (boost::system::error_code error_code)
 			      {
-				  tcp_accept_event event(true, std::move(*socket));
-				  self->on_accept(event);
-				  
-				  if(event.get_continue())
-				      self->accept();
-			      }
-			      else
-			      {
-				  tcp_accept_error_event event(error_code);
-				  self->on_accept_error(event);
-			      }
-			  });
+				  if(!error_code)
+				  {
+				      tcp_post_accept_event event(true, std::move(*socket));
+				      self->on_post_accept(event);
+				      
+				      if(event.get_continue())
+					  self->accept();
+				  }
+				  else
+				  {
+				      tcp_accept_error_event event(error_code);
+				      self->on_accept_error(event);
+				  }
+			      });
+    }
 }
+
 void beluga::tcp_server::go()
 {
     accept();
 }
 
-void beluga::tcp_server::on_accept(tcp_accept_event& event)
+void beluga::tcp_server::on_pre_accept(tcp_pre_accept_event& event)
 {
-    on_accept_signal(event);
+    on_pre_accept_signal(event);
+}
+void beluga::tcp_server::on_post_accept(tcp_post_accept_event& event)
+{
+    on_post_accept_signal(event);
 }
 void beluga::tcp_server::on_accept_error(tcp_accept_error_event& event)
 {
