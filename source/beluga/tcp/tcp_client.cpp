@@ -60,6 +60,14 @@ void beluga::tcp_client::on_receive_error(tcp_receive_error_event& event)
 {
     on_receive_error_signal(event);
 }
+void beluga::tcp_client::on_connect(tcp_connect_event& event)
+{
+    on_connect_signal(event);
+}
+void beluga::tcp_client::on_connect_error(tcp_connect_error_event& event)
+{
+    on_connect_error_signal(event);
+}
 
 beluga::tcp_client::tcp_client(boost::asio::ip::tcp::socket& socket):
     socket(std::move(socket))

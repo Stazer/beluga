@@ -1,6 +1,7 @@
 #include <beluga/tcp/tcp_connect_event.hpp>
 
-beluga::tcp_connect_event::tcp_connect_event(const boost::asio::ip::tcp::endpoint& endpoint):
+beluga::tcp_connect_event::tcp_connect_event(bool _continue, const boost::asio::ip::tcp::endpoint& endpoint):
+    continue_event(_continue),
     endpoint(endpoint)
 {
 }
