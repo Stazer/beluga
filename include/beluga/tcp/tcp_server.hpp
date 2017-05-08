@@ -19,8 +19,9 @@ namespace beluga
 
 	virtual ~tcp_server() = default;
 
-	static std::shared_ptr<tcp_server> create(boost::asio::io_service& io_service, const boost::asio::ip::tcp::endpoint& endpoint);
-
+	template <typename... args>
+	static std::shared_ptr<tcp_server> create(args&&... params);
+	
 	boost::asio::ip::tcp::acceptor& get_acceptor();
 	const boost::asio::ip::tcp::acceptor& get_acceptor() const;
 	
@@ -42,3 +43,5 @@ namespace beluga
 	boost::asio::ip::tcp::acceptor acceptor;
     };
 }
+
+#include <beluga/tcp/tcp_server.inl>
