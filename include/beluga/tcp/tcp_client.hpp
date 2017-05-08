@@ -26,7 +26,8 @@ namespace beluga
 	boost::asio::ip::tcp::socket& get_socket();
 	const boost::asio::ip::tcp::socket& get_socket() const;
 		
-	static std::shared_ptr<tcp_client> create(boost::asio::ip::tcp::socket& socket);
+	template <typename... args>
+	static std::shared_ptr<tcp_client> create(args&&... params);
 
 	void connect(const boost::asio::ip::tcp::endpoint& endpoint);
 
@@ -56,3 +57,5 @@ namespace beluga
 	boost::asio::ip::tcp::socket socket;
     };
 }
+
+#include <beluga/tcp/tcp_client.inl>

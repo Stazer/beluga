@@ -1,11 +1,5 @@
 #include <beluga/tcp/tcp_client.hpp>
 
-std::shared_ptr<beluga::tcp_client> beluga::tcp_client::create(boost::asio::ip::tcp::socket& socket)
-{
-    // TODO std::make_shared
-    return std::shared_ptr<tcp_client>(new tcp_client(socket));
-}
-
 boost::asio::ip::tcp::socket& beluga::tcp_client::get_socket()
 {
     return socket;
