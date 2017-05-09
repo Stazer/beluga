@@ -72,32 +72,6 @@ void beluga::tcp_client::go()
     receive();
 }
 
-void beluga::tcp_client::on_pre_receive(tcp_pre_receive_event& event)
-{
-    on_pre_receive_signal(event);
-}
-void beluga::tcp_client::on_post_receive(tcp_post_receive_event& event)
-{
-    on_post_receive_signal(event);
-}
-void beluga::tcp_client::on_receive_error(tcp_receive_error_event& event)
-{
-    on_receive_error_signal(event);
-}
-
-void beluga::tcp_client::on_pre_connect(tcp_pre_connect_event& event)
-{
-    on_pre_connect_signal(event);
-}
-void beluga::tcp_client::on_post_connect(tcp_post_connect_event& event)
-{
-    on_post_connect_signal(event);
-}
-void beluga::tcp_client::on_connect_error(tcp_connect_error_event& event)
-{
-    on_connect_error_signal(event);
-}
-
 beluga::tcp_client::tcp_client(boost::asio::ip::tcp::socket& socket):
     socket(std::move(socket))
 {
