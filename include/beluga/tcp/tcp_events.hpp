@@ -7,6 +7,8 @@
 
 namespace beluga
 {
+    using tcp_error_event = error_event;
+    
     class tcp_post_accept_event : public continue_event
     {
     public:
