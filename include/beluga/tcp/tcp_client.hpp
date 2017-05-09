@@ -53,7 +53,8 @@ namespace beluga
 
     private:
 	tcp_client(boost::asio::ip::tcp::socket& socket);
-
+	tcp_client(boost::asio::io_service& io_service);
+	
 	boost::asio::ip::tcp::socket socket;
     };
 }

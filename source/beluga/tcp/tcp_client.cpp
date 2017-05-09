@@ -28,11 +28,11 @@ void beluga::tcp_client::connect(const boost::asio::ip::tcp::endpoint& endpoint)
 					   if(event.get_continue())
 					       self->receive();
 				       }
-				   else
-				   {
-				       tcp_connect_error_event event(error_code);
-				       self->on_connect_error(event);
-				   }
+				       else
+				       {
+					   tcp_connect_error_event event(error_code);
+					   self->on_connect_error(event);
+				       }
 				   });
     }
 }
@@ -100,5 +100,9 @@ void beluga::tcp_client::on_connect_error(tcp_connect_error_event& event)
 
 beluga::tcp_client::tcp_client(boost::asio::ip::tcp::socket& socket):
     socket(std::move(socket))
+{
+}
+beluga::tcp_client::tcp_client(boost::asio::io_service& io_service):
+    socket(io_service)
 {
 }
