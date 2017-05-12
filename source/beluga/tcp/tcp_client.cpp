@@ -18,22 +18,23 @@ void beluga::tcp_client::connect(const boost::asio::ip::tcp::endpoint& endpoint)
     
     if(event.get_continue())
     {
-	get_socket().async_connect(event.get_endpoint(), [self] (boost::system::error_code error_code)
-				   {
-				       if(!error_code)
-				       {
-					   tcp_post_connect_event event(true);
-					   self->on_post_connect(event);
-					   
-					   if(event.get_continue())
-					       self->receive();
-				       }
-				       else
-				       {
-					   tcp_connect_error_event event(error_code);
-					   self->on_connect_error(event);
-				       }
-				   });
+	get_socket().async_connect
+	    (event.get_endpoint(), [self] (boost::system::error_code error_code)
+	     {
+		 if(!error_code)
+		 {
+		     tcp_post_connect_event event(true);
+		     self->on_post_connect(event);
+		     
+		     if(event.get_continue())
+			 self->receive();
+		 }
+		 else
+		 {
+		     tcp_connect_error_event event(error_code);
+		     self->on_connect_error(event);
+		 }
+	     });
     }
 }
 
@@ -47,29 +48,25 @@ void beluga::tcp_client::receive()
 
     if(event.get_continue())
     {
-	get_socket().async_read_some(boost::asio::buffer(*buffer, buffer->size()),
-				     [self, buffer] (boost::system::error_code error_code, std::size_t length)
-				     {
-					 if(!error_code)
-					 {
-					     tcp_post_receive_event event(true, *buffer);
-					     self->on_post_receive(event);
-					     
-					     if(event.get_continue())
-						 self->receive();
-					 }
-					 else
-					 {
-					     tcp_receive_error_event event(error_code);
-					     self->on_receive_error(event);
-					 }
-				     });
+	get_socket().async_read_some
+	    (boost::asio::buffer(*buffer, buffer->size()),
+	     [self, buffer] (boost::system::error_code error_code, std::size_t length)
+	     {
+		 if(!error_code)
+		 {
+		     tcp_post_receive_event event(true, *buffer);
+		     self->on_post_receive(event);
+		     
+		     if(event.get_continue())
+			 self->receive();
+		 }
+		 else
+		 {
+		     tcp_receive_error_event event(error_code);
+		     self->on_receive_error(event);
+		 }
+	     });
     }
-}
-
-void beluga::tcp_client::go()
-{
-    receive();
 }
 
 beluga::tcp_client::tcp_client(boost::asio::ip::tcp::socket& socket):

@@ -19,28 +19,24 @@ void beluga::tcp_server::accept()
 
     if(event.get_continue())
     {
-	acceptor.async_accept(*socket, [self, socket] (boost::system::error_code error_code)
-			      {
-				  if(!error_code)
-				  {
-				      tcp_post_accept_event event(true, std::move(*socket));
-				      self->on_post_accept(event);
-				      
-				      if(event.get_continue())
-					  self->accept();
-				  }
-				  else
-				  {
-				      tcp_accept_error_event event(error_code);
-				      self->on_accept_error(event);
-				  }
-			      });
+	acceptor.async_accept
+	    (*socket, [self, socket] (boost::system::error_code error_code)
+	     {
+		 if(!error_code)
+		 {
+		     tcp_post_accept_event event(true, std::move(*socket));
+		     self->on_post_accept(event);
+		     
+		     if(event.get_continue())
+			 self->accept();
+		 }
+		 else
+		 {
+		     tcp_accept_error_event event(error_code);
+		     self->on_accept_error(event);
+		 }
+	     });
     }
-}
-
-void beluga::tcp_server::go()
-{
-    accept();
 }
 
 beluga::tcp_server::tcp_server(boost::asio::io_service& io_service, const boost::asio::ip::tcp::endpoint& endpoint):
