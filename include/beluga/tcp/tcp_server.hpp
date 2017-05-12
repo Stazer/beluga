@@ -26,8 +26,6 @@ namespace beluga
 	const boost::asio::ip::tcp::acceptor& get_acceptor() const;
 	
 	void accept();
-
-	void go();
 	
 	on_pre_accept_type on_pre_accept;
 	on_post_accept_type on_post_accept;

@@ -4,6 +4,7 @@
 #include <boost/signals2.hpp>
 #include <beluga/tcp/tcp_events.hpp>
 #include <memory>
+#include <iostream>
 
 namespace beluga
 {
@@ -32,8 +33,6 @@ namespace beluga
 	void connect(const boost::asio::ip::tcp::endpoint& endpoint);
 
 	void receive();
-
-	void go();
 	
 	on_pre_receive_type on_pre_receive;
 	on_post_receive_type on_post_receive;
