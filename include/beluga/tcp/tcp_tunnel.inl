@@ -31,7 +31,7 @@ const std::weak_ptr<remote_type>& beluga::tcp_tunnel<local_type, remote_type>::g
 }
 
 template <typename local_type, typename remote_type>
-void beluga::tcp_tunnel<local_type, remote_type>::receive()
+void beluga::tcp_tunnel<local_type, remote_type>::transfer()
 {
     auto local = get_local().lock();
     auto remote = get_remote().lock();
@@ -66,7 +66,7 @@ void beluga::tcp_tunnel<local_type, remote_type>::initialize()
     auto remote = get_remote().lock();
     
     remote->on_post_receive.connect
-	([self, buffer] (beluga::tcp_post_receive_event& event)
+	([self, buffer] (beluga::tcp_client::post_receive_event& event)
 	 {
 	     auto remote = self->get_remote().lock();
 	     auto local = self->get_local().lock();
@@ -81,7 +81,7 @@ void beluga::tcp_tunnel<local_type, remote_type>::initialize()
 	 });
     
     local->on_post_receive.connect
-	([self, buffer] (beluga::tcp_post_receive_event& event)
+	([self, buffer] (beluga::tcp_client::post_receive_event& event)
 	 {
 	     auto remote = self->get_remote().lock();
 	     auto local = self->get_local().lock();
@@ -107,8 +107,8 @@ void beluga::tcp_tunnel<local_type, remote_type>::initialize()
 			      }
 			      else
 			      {
-				  tcp_error_event event(error_code);
-				  self->on_error(event);
+				  transfer_error_event event(error_code);
+				  self->on_transfer_error(event);
 			      }
 			  });
 		 }

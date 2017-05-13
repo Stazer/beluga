@@ -2,7 +2,7 @@
 
 #include <boost/asio.hpp>
 #include <boost/signals2.hpp>
-#include <beluga/tcp/tcp_events.hpp>
+#include <beluga/event.hpp>
 #include <memory>
 
 namespace beluga
@@ -10,9 +10,24 @@ namespace beluga
     class tcp_server : public std::enable_shared_from_this<tcp_server>
     {
     public:
-	using on_pre_accept_type = boost::signals2::signal<void(tcp_pre_accept_event& event)>;
-	using on_post_accept_type = boost::signals2::signal<void(tcp_post_accept_event& event)>;
-	using on_accept_error_type = boost::signals2::signal<void(tcp_accept_error_event& event)>;
+	class post_accept_event : public continue_event 
+	{
+	public:
+	    post_accept_event(bool _continue, boost::asio::ip::tcp::socket socket);
+	    
+	    boost::asio::ip::tcp::socket& get_socket();
+	    const boost::asio::ip::tcp::socket& get_socket() const;
+	    
+	private:
+	    boost::asio::ip::tcp::socket socket;
+	};	
+
+	using accept_error_event = error_event;
+	using pre_accept_event = continue_event;
+	
+	using on_pre_accept_type = boost::signals2::signal<void(pre_accept_event& event)>;
+	using on_post_accept_type = boost::signals2::signal<void(post_accept_event& event)>;
+	using on_accept_error_type = boost::signals2::signal<void(accept_error_event& event)>;
 
 	tcp_server(const tcp_server&) = delete;
 	tcp_server& operator=(const tcp_server&) = delete;

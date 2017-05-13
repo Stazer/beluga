@@ -2,22 +2,54 @@
 
 #include <boost/asio.hpp>
 #include <boost/signals2.hpp>
-#include <beluga/tcp/tcp_events.hpp>
+#include <beluga/event.hpp>
+#include <beluga/buffer.hpp>
 #include <memory>
-#include <iostream>
 
 namespace beluga
 {
     class tcp_client : public std::enable_shared_from_this<tcp_client>
     {
     public:
-	using on_pre_receive_type = boost::signals2::signal<void(tcp_pre_receive_event& event)>;
-	using on_post_receive_type = boost::signals2::signal<void(tcp_post_receive_event& event)>;
-	using on_receive_error_type = boost::signals2::signal<void(tcp_receive_error_event& event)>;
+	using connect_error_event = error_event;
+	using post_connect_event = continue_event;
+	class pre_connect_event : public continue_event
+	{
+	public:
+	    pre_connect_event(bool _continue, const boost::asio::ip::tcp::endpoint& endpoint);
+	    
+	    void set_endpoint(const boost::asio::ip::tcp::endpoint& endpoint);
+	    boost::asio::ip::tcp::endpoint& get_endpoint();	
+	    const boost::asio::ip::tcp::endpoint& get_endpoint() const;	
+	    
+	private:
+	    boost::asio::ip::tcp::endpoint endpoint;
+	};
 
-	using on_pre_connect_type = boost::signals2::signal<void(tcp_pre_connect_event& event)>;
-	using on_post_connect_type = boost::signals2::signal<void(tcp_post_connect_event& event)>;
-	using on_connect_error_type = boost::signals2::signal<void(tcp_connect_error_event& event)>;
+	class receive_event : public continue_event
+	{
+	public:
+	    receive_event(bool _continue, const beluga::dynamic_buffer& buffer);
+	    
+	    void set_buffer(const beluga::dynamic_buffer& buffer);
+	    beluga::dynamic_buffer& get_buffer();
+	    const beluga::dynamic_buffer& get_buffer() const;
+	    
+	private:
+	    beluga::dynamic_buffer buffer;
+	};
+
+	using pre_receive_event = receive_event;
+	using post_receive_event = receive_event;
+	using receive_error_event = error_event;
+
+	using on_pre_receive_type = boost::signals2::signal<void(pre_receive_event& event)>;
+	using on_post_receive_type = boost::signals2::signal<void(post_receive_event& event)>;
+	using on_receive_error_type = boost::signals2::signal<void(receive_error_event& event)>;
+	
+	using on_pre_connect_type = boost::signals2::signal<void(pre_connect_event& event)>;
+	using on_post_connect_type = boost::signals2::signal<void(post_connect_event& event)>;
+	using on_connect_error_type = boost::signals2::signal<void(connect_error_event& event)>;
 
 	tcp_client(const tcp_client&) = delete;
 	tcp_client& operator=(const tcp_client&) = delete;

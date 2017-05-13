@@ -1,9 +1,10 @@
 #pragma once
 
-#include <beluga/tcp/tcp_events.hpp>
 #include <boost/asio.hpp>
+#include <beluga/event.hpp>
+#include <beluga/buffer.hpp>
+#include <beluga/tcp/tcp_client.hpp>
 #include <memory>
-
 
 namespace beluga
 {
@@ -11,7 +12,9 @@ namespace beluga
     class tcp_tunnel : public std::enable_shared_from_this<tcp_tunnel<local_type, remote_type>>
     {
     public:
-	using on_error_type = boost::signals2::signal<void(tcp_error_event& event)>;
+	using transfer_error_event = error_event;
+	
+	using on_transfer_error_type = boost::signals2::signal<void(transfer_error_event& event)>;
 
 	tcp_tunnel(const tcp_tunnel&) = delete;
 	tcp_tunnel& operator=(const tcp_tunnel&) = delete;
@@ -25,9 +28,9 @@ namespace beluga
 	std::weak_ptr<remote_type>& get_remote();
 	const std::weak_ptr<remote_type>& get_remote() const;
 	
-	void receive();
+	void transfer();
 	
-	on_error_type on_error;
+	on_transfer_error_type on_transfer_error;
 
     private:
 	tcp_tunnel(std::weak_ptr<local_type> local, std::weak_ptr<remote_type> remote);
