@@ -59,14 +59,14 @@ beluga::tcp_tunnel<local_type, remote_type>::tcp_tunnel(std::weak_ptr<local_type
 template <typename local_type, typename remote_type>
 void beluga::tcp_tunnel<local_type, remote_type>::initialize()
 {
-    auto buffer = std::make_shared<dynamic_buffer>(1024);		
+    auto buffer = std::make_shared<dynamic_buffer>();		
     auto self = this->shared_from_this();
     
     auto local = get_local().lock();
     auto remote = get_remote().lock();
     
     remote->on_post_receive.connect
-	([self, buffer] (beluga::tcp_client::post_receive_event& event)
+	([self, buffer] (tcp_client::post_receive_event& event)
 	 {
 	     auto remote = self->get_remote().lock();
 	     auto local = self->get_local().lock();
@@ -81,7 +81,7 @@ void beluga::tcp_tunnel<local_type, remote_type>::initialize()
 	 });
     
     local->on_post_receive.connect
-	([self, buffer] (beluga::tcp_client::post_receive_event& event)
+	([self, buffer] (tcp_client::post_receive_event& event)
 	 {
 	     auto remote = self->get_remote().lock();
 	     auto local = self->get_local().lock();
