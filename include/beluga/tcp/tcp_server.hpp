@@ -46,9 +46,10 @@ namespace beluga
 	on_post_accept_type on_post_accept;
 	on_accept_error_type on_accept_error;
 
-    private:
+    protected:
 	tcp_server(boost::asio::io_service& io_service, const boost::asio::ip::tcp::endpoint& endpoint);
-
+	
+    private:
 	boost::asio::ip::tcp::acceptor acceptor;
     };
 }

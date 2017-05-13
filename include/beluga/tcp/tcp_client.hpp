@@ -74,10 +74,11 @@ namespace beluga
 	on_post_connect_type on_post_connect;
 	on_connect_error_type on_connect_error;
 
-    private:
+    protected:
 	tcp_client(boost::asio::ip::tcp::socket& socket);
 	tcp_client(boost::asio::io_service& io_service);
-	
+
+    private:
 	boost::asio::ip::tcp::socket socket;
     };
 }
