@@ -36,8 +36,8 @@ void beluga::http_client::initialize()
 {
     std::shared_ptr<dynamic_buffer> buffer;
     
-    this->on_post_receive.connect
-	([this, &buffer] (tcp_client::post_receive_event& event)
+    this->on_receive.connect
+	([this, &buffer] (tcp_client::receive_event& event)
 	 {
 	     if(on_request.empty())
 		 return;

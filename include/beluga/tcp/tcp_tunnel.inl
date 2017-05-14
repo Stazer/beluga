@@ -65,8 +65,8 @@ void beluga::tcp_tunnel<local_type, remote_type>::initialize()
     auto local = get_local().lock();
     auto remote = get_remote().lock();
     
-    remote->on_post_receive.connect
-	([self, buffer] (tcp_client::post_receive_event& event)
+    remote->on_receive.connect
+	([self, buffer] (tcp_client::receive_event& event)
 	 {
 	     auto remote = self->get_remote().lock();
 	     auto local = self->get_local().lock();
@@ -80,8 +80,8 @@ void beluga::tcp_tunnel<local_type, remote_type>::initialize()
 	     }
 	 });
     
-    local->on_post_receive.connect
-	([self, buffer] (tcp_client::post_receive_event& event)
+    local->on_receive.connect
+	([self, buffer] (tcp_client::receive_event& event)
 	 {
 	     auto remote = self->get_remote().lock();
 	     auto local = self->get_local().lock();
