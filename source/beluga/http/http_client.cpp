@@ -34,18 +34,15 @@ beluga::http_client::http_client(boost::asio::io_service& io_service):
 
 void beluga::http_client::initialize()
 {
-    std::shared_ptr<dynamic_buffer> buffer;
+    std::shared_ptr<dynamic_buffer> buffer = std::make_shared<dynamic_buffer>();
     
     this->on_receive.connect
-	([this, &buffer] (tcp_client::receive_event& event)
+	([this, buffer] (tcp_client::receive_event& event)
 	 {
 	     if(on_request.empty())
 		 return;
 
-	     if(!buffer)
-		 buffer = std::make_shared<dynamic_buffer>(event.get_buffer());
-	     else
-		 buffer->insert(buffer->end(), event.get_buffer().begin(), event.get_buffer().end());
+	     buffer->insert(buffer->end(), event.get_buffer().begin(), event.get_buffer().end());
 	     
 	     http_reader<dynamic_buffer::const_iterator> reader(*buffer);
 	     http_request request;
