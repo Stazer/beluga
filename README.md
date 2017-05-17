@@ -12,7 +12,7 @@
 	server->accept();
 	io_service.run();
 
-# Redirect all incomming http requests to 138.201.77.50:80 and print requests header
+### Redirect all incomming http requests to 138.201.77.50:80 and print request headers
 	boost::asio::io_service io_service;
 	auto server = beluga::tcp_server::create(io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 8080));
 	
