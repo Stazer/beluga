@@ -76,7 +76,7 @@ void beluga::tcp_tunnel<local_type, remote_type>::initialize()
 	     if(remote && local)
 	     {
 		 local->get_socket().async_write_some
-		     (boost::asio::buffer(event.get_buffer()), [self, remote] (boost::system::error_code error_code, std::size_t length)
+		     (boost::asio::buffer(event.get_buffer()), [self] (boost::system::error_code error_code, std::size_t length)
 		      {
 		      });
 	     }
@@ -95,8 +95,8 @@ void beluga::tcp_tunnel<local_type, remote_type>::initialize()
 		 if(remote->get_socket().is_open())
 		 {
 		     remote->get_socket().async_write_some
-			  (boost::asio::buffer(*buffer),
-			  [self, buffer, local] (boost::system::error_code error_code, std::size_t bytes_transfered)
+			 (boost::asio::buffer(*buffer),
+			  [self, buffer] (boost::system::error_code error_code, std::size_t bytes_transfered)
 			  {
 			      if(!error_code)
 				  buffer->resize(0);
