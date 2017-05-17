@@ -11,7 +11,7 @@ const boost::asio::ip::tcp::endpoint& beluga::tcp_client::connect_event::get_end
     return endpoint;
 }
 
-beluga::tcp_client::receive_event::receive_event(bool _continue, dynamic_buffer& buffer):
+beluga::tcp_client::receive_event::receive_event(bool _continue, const dynamic_buffer& buffer):
     continue_event(_continue),
     buffer(buffer)
 {

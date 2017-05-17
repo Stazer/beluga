@@ -27,14 +27,14 @@ namespace beluga
 	class receive_event : public continue_event
 	{
 	public:
-	    receive_event(bool _continue, beluga::dynamic_buffer& buffer);
+	    receive_event(bool _continue, const beluga::dynamic_buffer& buffer);
 	    
 	    void set_buffer(const beluga::dynamic_buffer& buffer);
 	    beluga::dynamic_buffer& get_buffer();
 	    const beluga::dynamic_buffer& get_buffer() const;
 	    
 	private:
-	    beluga::dynamic_buffer& buffer;
+	    beluga::dynamic_buffer buffer;
 	};
 
 	using receive_error_event = error_event;
