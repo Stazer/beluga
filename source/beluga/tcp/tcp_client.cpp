@@ -11,7 +11,7 @@ const boost::asio::ip::tcp::endpoint& beluga::tcp_client::connect_event::get_end
     return endpoint;
 }
 
-beluga::tcp_client::receive_event::receive_event(bool _continue, const dynamic_buffer& buffer):   
+beluga::tcp_client::receive_event::receive_event(bool _continue, dynamic_buffer& buffer):
     continue_event(_continue),
     buffer(buffer)
 {
@@ -69,15 +69,19 @@ void beluga::tcp_client::receive()
 
     get_socket().async_read_some
 	(boost::asio::buffer(*buffer, buffer->size()),
-	 [self, buffer] (boost::system::error_code error_code, std::size_t length)
+	 [self, buffer] (boost::system::error_code error_code, std::size_t received_bytes)
 	 {
 	     if(!error_code)
 	     {
+		 buffer->resize(received_bytes);
+		 
 		 receive_event event(true, *buffer);
 		 self->on_receive(event);
 		 
 		 if(event.get_continue())
 		     self->receive();
+
+		 buffer->resize(1024);
 	     }
 	     else
 	     {

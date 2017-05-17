@@ -56,6 +56,8 @@ beluga::tcp_tunnel<local_type, remote_type>::tcp_tunnel(std::weak_ptr<local_type
 {
 }
 
+#include <iostream>
+
 template <typename local_type, typename remote_type>
 void beluga::tcp_tunnel<local_type, remote_type>::initialize()
 {
@@ -66,7 +68,7 @@ void beluga::tcp_tunnel<local_type, remote_type>::initialize()
     auto remote = get_remote().lock();
     
     remote->on_receive.connect
-	([self, buffer] (tcp_client::receive_event& event)
+	([self] (tcp_client::receive_event& event)
 	 {
 	     auto remote = self->get_remote().lock();
 	     auto local = self->get_local().lock();
@@ -74,7 +76,7 @@ void beluga::tcp_tunnel<local_type, remote_type>::initialize()
 	     if(remote && local)
 	     {
 		 local->get_socket().async_write_some
-		     (boost::asio::buffer(event.get_buffer()), [self] (boost::system::error_code error_code, std::size_t length)
+		     (boost::asio::buffer(event.get_buffer()), [self, remote] (boost::system::error_code error_code, std::size_t length)
 		      {
 		      });
 	     }
@@ -88,23 +90,16 @@ void beluga::tcp_tunnel<local_type, remote_type>::initialize()
 	     
 	     if(remote && local)
 	     {  
-		 if(!remote->get_socket().is_open())
-		     buffer->insert(buffer->end(), event.get_buffer().begin(), event.get_buffer().end());
-		 else
+		 buffer->insert(buffer->end(), event.get_buffer().begin(), event.get_buffer().end());
+
+		 if(remote->get_socket().is_open())
 		 {
-		     //event.set_continue(false);
-		     
 		     remote->get_socket().async_write_some
-			 (std::array<boost::asio::const_buffer, 2> {boost::asio::buffer(*buffer), boost::asio::buffer(event.get_buffer())},
-			  [self, buffer] (boost::system::error_code error_code, std::size_t bytes_transfered)
+			  (boost::asio::buffer(*buffer),
+			  [self, buffer, local] (boost::system::error_code error_code, std::size_t bytes_transfered)
 			  {
 			      if(!error_code)
-			      {
-				  if(!buffer->empty())
-				      buffer->resize(0);
-				  
-				  //local->receive();
-			      }
+				  buffer->resize(0);
 			      else
 			      {
 				  transfer_error_event event(error_code);
