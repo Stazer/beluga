@@ -2,12 +2,12 @@
 
 namespace beluga
 {
-    enum TLS_RECORD_TYPE
+    enum class tls_record_type
     {
-	TLS_CHANGE_CIPHER_SPEC = 0x14,
-	TLS_ALERT = 0x15,
-	TLS_HANDSHAKE = 0x16,
-	TLS_APPLICATION_DATA = 0x17,
-	TLS_HEARTBEAT = 0x18,
+	CHANGE_CIPHER_SPEC = 0x14,
+	ALERT = 0x15,
+	HANDSHAKE = 0x16,
+	APPLICATION_DATA = 0x17,
+	HEARTBEAT = 0x18,
     };
 }

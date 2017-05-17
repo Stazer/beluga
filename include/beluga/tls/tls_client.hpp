@@ -1,6 +1,9 @@
 #pragma once
 
 #include <beluga/tcp/tcp_client.hpp>
+#include <beluga/tls/tls_record.hpp>
+#include <beluga/tls/tls_handshake.hpp>
+#include <beluga/tls/tls_client_hello.hpp>
 
 namespace beluga
 {
@@ -45,23 +48,23 @@ namespace beluga
 	private:
 	    tls_client_hello client_hello;
 	};
-
-	using client_hello_error_event = error_event;
 	
-	using on_client_hello_error_type = boost::signals2::signal<void(client_hello_error_event& event)>;
+	using on_record_type = boost::signals2::signal<void(record_event& event)>;	
+	using on_handshake_type = boost::signals2::signal<void(handshake_event& event)>;
 	using on_client_hello_type = boost::signals2::signal<void(client_hello_event& event)>;	
 	
 	virtual ~tls_client() = default;
 	
 	template <typename... args>
-	static std::shared_ptr<http_client> create(args&&... params);
-	
-	on_client_hello_error_type on_client_hello_error;
+	static std::shared_ptr<tls_client> create(args&&... params);
+
+	on_record_type on_record;
+	on_handshake_type on_handshake;
         on_client_hello_type on_client_hello;
 	
     private:
-	http_client(boost::asio::ip::tcp::socket& socket);
-	http_client(boost::asio::io_service& io_service);
+	tls_client(boost::asio::ip::tcp::socket& socket);
+	tls_client(boost::asio::io_service& io_service);
 
 	void initialize();
     };
