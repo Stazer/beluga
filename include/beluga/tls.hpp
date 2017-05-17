@@ -8,3 +8,4 @@
 #include <beluga/tls/tls_handshake.hpp>
 #include <beluga/tls/tls_client_hello.hpp>
 #include <beluga/tls/tls_reader.hpp>
+#include <beluga/tls/tls_client.hpp>
