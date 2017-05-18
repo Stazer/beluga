@@ -44,7 +44,8 @@ void beluga::buffer_reader<iterator_type>::read_bytes(std::uint64_t& bytes)
 }
 
 template <typename iterator_type>
-void beluga::buffer_reader<iterator_type>::read_bytes(std::uint64_t& bytes, std::uint8_t amount)
+template <typename bytes_type>
+void beluga::buffer_reader<iterator_type>::read_bytes(bytes_type& bytes, std::uint8_t amount)
 {
     while(amount > 0)
 	bytes = bytes | (read_byte() << --amount * 8);
@@ -52,7 +53,7 @@ void beluga::buffer_reader<iterator_type>::read_bytes(std::uint64_t& bytes, std:
 
 template <typename iterator_type>
 template <typename input_iterator_type>
-void beluga::buffer_reader<iterator_type>::read_bytes(input_iterator_type iterator, std::size_t amount)
+void beluga::buffer_reader<iterator_type>::read_byte_array(input_iterator_type iterator, std::size_t amount)
 {
     for(std::size_t i = 0; i < amount; ++i)
 	*(iterator++) = read_byte();
@@ -60,7 +61,7 @@ void beluga::buffer_reader<iterator_type>::read_bytes(input_iterator_type iterat
 
 template <typename iterator_type>
 template <typename container_type>
-void beluga::buffer_reader<iterator_type>::read_bytes(container_type& bytes)
+void beluga::buffer_reader<iterator_type>::read_byte_array(container_type& bytes)
 {
     read_bytes(bytes.begin(), bytes.size());
 }

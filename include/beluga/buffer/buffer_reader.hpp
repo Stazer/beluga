@@ -16,11 +16,13 @@ namespace beluga
 	void read_bytes(std::uint16_t& bytes);
 	void read_bytes(std::uint32_t& bytes);	
 	void read_bytes(std::uint64_t& bytes);
-	void read_bytes(std::uint64_t& bytes, std::uint8_t amount);
+	template <typename bytes_type>
+	void read_bytes(bytes_type& bytes, std::uint8_t amount);
+	
 	template <typename input_iterator_type>
-	void read_bytes(input_iterator_type iterator, std::size_t amount);
+	void read_byte_array(input_iterator_type iterator, std::size_t amount);
 	template <typename container_type>
-	void read_bytes(container_type& bytes);
+	void read_byte_array(container_type& bytes);
 	
 	// todo
 	buffer_reader<iterator_type>& operator >>(std::uint8_t& byte);

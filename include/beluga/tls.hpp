@@ -1,7 +1,5 @@
 #pragma once
 
-#include <beluga/tls/tls_record_type.hpp>
-#include <beluga/tls/tls_handshake_type.hpp>
 #include <beluga/tls/tls_compression_method.hpp>
 #include <beluga/tls/tls_cipher_type.hpp>
 #include <beluga/tls/tls_record.hpp>

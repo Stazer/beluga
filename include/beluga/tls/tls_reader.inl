@@ -16,12 +16,13 @@ bool beluga::tls_reader<iterator_type>::read_record(tls_record& record)
     if(!this->has_minimum_length(5))
 	return false;
     
-    std::uint8_t type = 0;
-    std::uint16_t version = 0, length = 0;
+    tls_record::record_type type = tls_record::UNKNOWN;
+    tls_record::version_type version = 0;
+    tls_record::length_type length = 0;
     
     this->get_reader() >> type >> version >> length;
     
-    record.set_type(static_cast<tls_record_type>(type));
+    record.set_type(type);
     record.set_version(version);
     record.set_length(length);
     
@@ -34,13 +35,13 @@ bool beluga::tls_reader<iterator_type>::read_handshake(tls_handshake& handshake)
     if(!this->has_minimum_length(6))
 	return false;
     
-    std::uint8_t type = 0;
-    std::uint64_t length = 0;
+    tls_handshake::handshake_type type = tls_handshake::UNKNOWN;
+    tls_handshake::length_type length = 0;
     
     this->get_reader() >> type;
     this->get_reader().read_bytes(length, 3);
     
-    handshake.set_type(static_cast<tls_handshake_type>(type));
+    handshake.set_type(type);
     handshake.set_length(length);
     
     return true;
@@ -52,11 +53,11 @@ bool beluga::tls_reader<iterator_type>::read_client_hello(tls_client_hello& clie
     if(!this->has_minimum_length(35))
 	return false;
     
-    std::uint16_t version = 0;
-    std::uint32_t gmt_unix_time = 0;
+    tls_client_hello::version_type version = 0;
+    tls_client_hello::gmt_unix_time_type gmt_unix_time = 0;
     tls_client_hello::random_bytes_type random_bytes;
     
-    std::uint64_t session_id = 0;
+    tls_client_hello::session_id_type session_id = 0;
     tls_client_hello::cipher_suites_type cipher_suites;
     tls_client_hello::compression_methods_type compression_methods;
     tls_client_hello::extensions_type extensions;
@@ -81,7 +82,7 @@ bool beluga::tls_reader<iterator_type>::read_client_hello(tls_client_hello& clie
 }
 
 template <typename iterator_type>
-bool beluga::tls_reader<iterator_type>::read_session_id(std::uint64_t& session_id)
+bool beluga::tls_reader<iterator_type>::read_session_id(tls_client_hello::session_id_type& session_id)
 {
     if(!this->has_minimum_length(1))
 	return false;
@@ -93,7 +94,7 @@ bool beluga::tls_reader<iterator_type>::read_session_id(std::uint64_t& session_i
     if(!this->has_minimum_length(session_id_length))
 	return false;
     
-    this->get_reader().read_bytes(session_id, session_id_length);	
+    this->get_reader().read_bytes(session_id, session_id_length);
 
     return true;
 }
