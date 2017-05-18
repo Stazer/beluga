@@ -1,16 +1,17 @@
 #pragma once
 
 #include <cstdint>
+#include <beluga/tls/tls_record_type.hpp>
 
 namespace beluga
 {
     class tls_record
     {
     public:
-	tls_record(std::uint8_t type = 0, std::uint16_t version = 0, std::uint16_t length = 0);
+	tls_record(tls_record_type type = tls_record_type::UNKNOWN, std::uint16_t version = 0, std::uint16_t length = 0);
 	
-	void set_type(std::uint8_t type);
-	std::uint8_t get_type() const;
+	void set_type(tls_record_type type);
+	tls_record_type get_type() const;
 
 	void set_version(std::uint16_t version);
 	std::uint16_t get_version() const;
@@ -19,7 +20,7 @@ namespace beluga
 	std::uint16_t get_length() const;
 	
     private:
-	std::uint8_t type;
+	tls_record_type type;
 	std::uint16_t version;
 	std::uint16_t length;
     };

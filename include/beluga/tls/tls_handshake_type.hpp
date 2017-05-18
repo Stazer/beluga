@@ -1,8 +1,10 @@
 #pragma once
 
+#include <cstdint>
+
 namespace beluga
 {
-    enum class tls_handshake_type
+    enum class tls_handshake_type : std::uint8_t
     {
 	HELLO_REQUEST = 0x00,
 	CLIENT_HELLO = 0x01,
@@ -14,5 +16,7 @@ namespace beluga
 	CERTIFICATE_VERIFY = 0x0F,
 	CLIENT_KEY_EXCHANGE = 0x10,
 	FINISHED = 0x14,
+
+	UNKNOWN,
     };
 }

@@ -21,7 +21,7 @@ bool beluga::tls_reader<iterator_type>::read_record(tls_record& record)
     
     this->get_reader() >> type >> version >> length;
     
-    record.set_type(type);
+    record.set_type(static_cast<tls_record_type>(type));
     record.set_version(version);
     record.set_length(length);
     
@@ -40,7 +40,7 @@ bool beluga::tls_reader<iterator_type>::read_handshake(tls_handshake& handshake)
     this->get_reader() >> type;
     this->get_reader().read_bytes(length, 3);
     
-    handshake.set_type(type);
+    handshake.set_type(static_cast<tls_handshake_type>(type));
     handshake.set_length(length);
     
     return true;

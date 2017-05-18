@@ -1,16 +1,16 @@
 #include <beluga/tls/tls_handshake.hpp>
 
-beluga::tls_handshake::tls_handshake(std::uint8_t type, std::uint32_t length):
+beluga::tls_handshake::tls_handshake(tls_handshake_type type, std::uint32_t length):
     type(type),
     length(length)
 {
 }
 	
-void beluga::tls_handshake::set_type(std::uint8_t type)
+void beluga::tls_handshake::set_type(tls_handshake_type type)
 {
     this->type = type;
 }
-std::uint8_t beluga::tls_handshake::get_type() const
+beluga::tls_handshake_type beluga::tls_handshake::get_type() const
 {
     return type;
 }
