@@ -8,10 +8,10 @@ namespace beluga
     class http_client : public tcp_client
     {
     public:
-	class request_event : public continue_event
+	class request_event
 	{
 	public:
-	    request_event(bool _continue, const http_request& request);
+	    request_event(const http_request& request);
 	    
 	    void set_request(http_request& request);
 	    http_request& get_request();
