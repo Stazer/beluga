@@ -63,7 +63,7 @@ template <typename iterator_type>
 template <typename container_type>
 void beluga::buffer_reader<iterator_type>::read_byte_array(container_type& bytes)
 {
-    read_bytes(bytes.begin(), bytes.size());
+    read_byte_array(bytes.begin(), bytes.size());
 }
 
 template <typename iterator_type>
@@ -97,7 +97,7 @@ template <typename iterator_type>
 template <typename container_type>
 beluga::buffer_reader<iterator_type>& beluga::buffer_reader<iterator_type>::operator >>(container_type& bytes)
 {
-    read_bytes(bytes);
+    read_byte_array(bytes);
     return *this;
 }
 
