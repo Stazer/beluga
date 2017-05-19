@@ -1,7 +1,65 @@
 template <typename iterator_type>
-beluga::buffer_reader<iterator_type>::buffer_reader(iterator_type iterator):
+beluga::buffer_reader<iterator_type>::buffer_reader(iterator_type from, iterator_type to):
+    buffer_reader<iterator_type>(from, to, from)
+{
+}
+
+template <typename iterator_type>
+beluga::buffer_reader<iterator_type>::buffer_reader(iterator_type from, iterator_type to, iterator_type iterator):
+    from(from),
+    to(to),
     iterator(iterator)
 {
+}
+
+template <typename iterator_type>
+void beluga::buffer_reader<iterator_type>::set_from(iterator_type from)
+{
+    this->from = from;
+}
+template <typename iterator_type>
+iterator_type beluga::buffer_reader<iterator_type>::get_from() const
+{
+    return from;
+}
+
+template <typename iterator_type>
+void beluga::buffer_reader<iterator_type>::set_to(iterator_type to)
+{
+    this->to = to;
+}
+template <typename iterator_type>
+iterator_type beluga::buffer_reader<iterator_type>::get_to() const
+{
+    return to;
+}
+
+template <typename iterator_type>
+void beluga::buffer_reader<iterator_type>::set_iterator(iterator_type iterator)
+{
+    this->iterator = iterator;
+}
+template <typename iterator_type>
+iterator_type beluga::buffer_reader<iterator_type>::get_iterator() const
+{
+    return iterator;
+}
+
+template <typename iterator_type>
+std::size_t beluga::buffer_reader<iterator_type>::get_length() const
+{
+    return to - from;
+}
+
+template <typename iterator_type>
+std::size_t beluga::buffer_reader<iterator_type>::get_available_length() const
+{
+    return to - iterator;
+}
+template <typename iterator_type>
+std::size_t beluga::buffer_reader<iterator_type>::has_minimum_length(std::size_t length) const
+{
+    return get_available_length() >= length;
 }
 
 template <typename iterator_type>
@@ -99,20 +157,4 @@ beluga::buffer_reader<iterator_type>& beluga::buffer_reader<iterator_type>::oper
 {
     read_byte_array(bytes);
     return *this;
-}
-
-template <typename iterator_type>
-void beluga::buffer_reader<iterator_type>::set_iterator(iterator_type iterator)
-{
-    this->iterator = iterator;
-}
-template <typename iterator_type>
-iterator_type& beluga::buffer_reader<iterator_type>::get_iterator()
-{
-    return iterator;
-}
-template <typename iterator_type>
-const iterator_type& beluga::buffer_reader<iterator_type>::get_iterator() const
-{
-    return iterator;
 }

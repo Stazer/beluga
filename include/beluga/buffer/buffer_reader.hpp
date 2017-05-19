@@ -8,8 +8,25 @@ namespace beluga
     class buffer_reader
     {
     public:
-	buffer_reader(iterator_type iterator);
+	buffer_reader(iterator_type from, iterator_type to);
+	buffer_reader(iterator_type from, iterator_type to, iterator_type iterator);
 
+	virtual ~buffer_reader() = default;
+
+	void set_from(iterator_type iterator);
+	iterator_type get_from() const;
+	
+	void set_to(iterator_type to);
+	iterator_type get_to() const;
+
+	void set_iterator(iterator_type iterator);
+	iterator_type get_iterator() const;
+
+	std::size_t get_length() const;
+
+	std::size_t get_available_length() const;
+	std::size_t has_minimum_length(std::size_t length) const;
+	
 	std::uint8_t read_byte();
 	void read_byte(std::uint8_t& byte);
 
@@ -31,12 +48,11 @@ namespace beluga
 	buffer_reader<iterator_type>& operator >>(std::uint64_t& bytes);
 	template <typename container_type>
 	buffer_reader<iterator_type>& operator >>(container_type& bytes);
-
-	void set_iterator(iterator_type iterator);
-	iterator_type& get_iterator();
-	const iterator_type& get_iterator() const;
 	    
     private:
+	iterator_type from;
+	iterator_type to;
+	
 	iterator_type iterator;
     };
 }

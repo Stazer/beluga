@@ -1,12 +1,12 @@
 template <typename iterator_type>
 template <typename container_type>
 beluga::tls_reader<iterator_type>::tls_reader(const container_type& container):
-    protocol_reader<iterator_type>(container)
+    buffer_reader<iterator_type>(container.begin(), container.end())
 {
 }
 template <typename iterator_type>
 beluga::tls_reader<iterator_type>::tls_reader(iterator_type from, iterator_type to):
-    protocol_reader<iterator_type>(from, to)
+    buffer_reader<iterator_type>(from, to)
 {		
 }
 
@@ -20,7 +20,7 @@ bool beluga::tls_reader<iterator_type>::read_record(tls_record& record)
     tls_record::version_type version = 0;
     tls_record::length_type length = 0;
     
-    this->get_reader() >> type >> version >> length;
+    *this >> type >> version >> length;
     
     record.set_type(type);
     record.set_version(version);
@@ -38,8 +38,8 @@ bool beluga::tls_reader<iterator_type>::read_handshake(tls_handshake& handshake)
     tls_handshake::handshake_type type = tls_handshake::UNKNOWN;
     tls_handshake::length_type length = 0;
     
-    this->get_reader() >> type;
-    this->get_reader().read_bytes(length, 3);
+    *this >> type;
+    this->read_bytes(length, 3);
     
     handshake.set_type(type);
     handshake.set_length(length);
@@ -62,7 +62,7 @@ bool beluga::tls_reader<iterator_type>::read_client_hello(tls_client_hello& clie
     tls_client_hello::compression_methods_type compression_methods;
     tls_client_hello::extensions_type extensions;
     
-    this->get_reader() >> version >> gmt_unix_time >> random_bytes;
+    *this >> version >> gmt_unix_time >> random_bytes;
 
     if(!read_session_id(session_id) ||
        !read_cipher_suites(cipher_suites) ||
@@ -89,12 +89,12 @@ bool beluga::tls_reader<iterator_type>::read_session_id(tls_client_hello::sessio
     
     std::uint8_t session_id_length = 0;
 
-    this->get_reader() >> session_id_length;
+    *this >> session_id_length;
     
     if(!this->has_minimum_length(session_id_length))
 	return false;
     
-    this->get_reader().read_bytes(session_id, session_id_length);
+    this->read_bytes(session_id, session_id_length);
 
     return true;
 }
@@ -107,7 +107,7 @@ bool beluga::tls_reader<iterator_type>::read_cipher_suites(tls_client_hello::cip
     
     std::uint16_t cipher_suites_length = 0;
     
-    this->get_reader() >> cipher_suites_length;
+    *this >> cipher_suites_length;
     
     if(!this->has_minimum_length(cipher_suites_length))
 	return false;
@@ -117,7 +117,7 @@ bool beluga::tls_reader<iterator_type>::read_cipher_suites(tls_client_hello::cip
     for(std::uint16_t i = 0; i < cipher_suites_length / 2; ++i)
     {
 	std::uint16_t cipher_suite = 0;
-	this->get_reader() >> cipher_suite;
+	*this >> cipher_suite;
 	cipher_suites.push_back(cipher_suite);
     }
 
@@ -131,7 +131,7 @@ bool beluga::tls_reader<iterator_type>::read_compression_methods(tls_client_hell
     
     std::uint8_t compression_methods_length = 0;
     
-    this->get_reader() >> compression_methods_length;
+    *this >> compression_methods_length;
     
     if(!this->has_minimum_length(compression_methods_length))
 	return false;
@@ -139,7 +139,7 @@ bool beluga::tls_reader<iterator_type>::read_compression_methods(tls_client_hell
     for(std::uint8_t i = 0; i < compression_methods_length; ++i)
     {
 	std::uint8_t compression_method = 0;
-	this->get_reader() >> compression_method;
+	*this >> compression_method;
 	compression_methods.push_back(compression_method);
     }
 
@@ -152,8 +152,8 @@ bool beluga::tls_reader<iterator_type>::read_extensions(tls_client_hello::extens
 	return false;
     
     std::uint16_t extensions_length = 0;
-
-    this->get_reader() >> extensions_length;
+    
+    *this >> extensions_length;
     
     if(!this->has_minimum_length(extensions_length))
 	return false;
@@ -164,14 +164,14 @@ bool beluga::tls_reader<iterator_type>::read_extensions(tls_client_hello::extens
 	    return false;
 	
 	std::uint16_t type = 0, length = 0;
-	this->get_reader() >> type >> length;
+	*this >> type >> length;
 	
 	if(!this->has_minimum_length(length))
 	    return false;
 	
 	tls_extension::data_type data;
 	data.resize(length, 0);
-	this->get_reader() >> data;
+	*this >> data;
 	
 	extensions.push_back(tls_extension(type, data));
 	
