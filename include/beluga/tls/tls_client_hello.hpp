@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <array>
 #include <vector>
+#include <beluga/tls/tls_compression_method.hpp>
+#include <beluga/tls/tls_cipher_suite.hpp>
 #include <beluga/tls/tls_extension.hpp>
 
 namespace beluga
@@ -14,8 +16,8 @@ namespace beluga
 	using gmt_unix_time_type = std::uint32_t;
 	using random_bytes_type = std::array<std::uint8_t, 28>;
 	using session_id_type = std::uint64_t;
-	using cipher_suites_type = std::vector<std::uint16_t>;
-	using compression_methods_type = std::vector<std::uint8_t>;
+	using cipher_suites_type = std::vector<tls_cipher_suite>;
+	using compression_methods_type = std::vector<tls_compression_method>;
 	using extensions_type = std::vector<tls_extension>;
 	
 	tls_client_hello(version_type version = 0, gmt_unix_time_type gmt_unix_time = 0, const random_bytes_type& random_bytes = random_bytes_type(), session_id_type session_id = 0, const cipher_suites_type& cipher_suites = cipher_suites_type(), const compression_methods_type& compression_methods = compression_methods_type(), const extensions_type& extensions = extensions_type());

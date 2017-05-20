@@ -1,5 +1,6 @@
 #pragma once
 
+#include <type_traits>
 #include <beluga/buffer/buffer_reader.hpp>
 
 namespace beluga

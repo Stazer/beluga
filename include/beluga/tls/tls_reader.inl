@@ -116,9 +116,10 @@ bool beluga::tls_reader<iterator_type>::read_cipher_suites(tls_client_hello::cip
     
     for(std::uint16_t i = 0; i < cipher_suites_length / 2; ++i)
     {
-	std::uint16_t cipher_suite = 0;
+	std::underlying_type<tls_cipher_suite>::type cipher_suite = 0;
+	
 	*this >> cipher_suite;
-	cipher_suites.push_back(cipher_suite);
+	cipher_suites.push_back(static_cast<tls_cipher_suite>(cipher_suite));
     }
 
     return true;
@@ -138,9 +139,10 @@ bool beluga::tls_reader<iterator_type>::read_compression_methods(tls_client_hell
     
     for(std::uint8_t i = 0; i < compression_methods_length; ++i)
     {
-	std::uint8_t compression_method = 0;
+	std::underlying_type<tls_compression_method>::type compression_method = 0;
+
 	*this >> compression_method;
-	compression_methods.push_back(compression_method);
+	compression_methods.push_back(static_cast<tls_compression_method>(compression_method));
     }
 
     return true;
