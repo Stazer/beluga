@@ -75,27 +75,31 @@ void beluga::tls_client::initialize()
 	 {
 	     buffer->insert(buffer->end(), event.get_buffer().begin(), event.get_buffer().end());
 	     
-	     tls_reader<dynamic_buffer::const_iterator> reader(*buffer);
-	     handle_record(reader);
+	     while(true)
+	     {
+		 tls_reader<dynamic_buffer::const_iterator> reader(*buffer);
+
+		 tls_record record;
+		 if(reader.read_record(record))
+		 {
+		     reader.set_to(reader.get_iterator() + record.get_length());
+		     
+		     record_event event(record);
+		     on_record(event);
+		     
+		     switch(record.get_type())
+		     {
+		     case tls_record::HANDSHAKE:
+			 handle_handshake(reader);
+			 break;
+		     }
+
+		     buffer->erase(reader.get_from(), reader.get_to());
+		 }
+		 else
+		     break;
+	     }
 	 });
-}
-
-void beluga::tls_client::handle_record(tls_reader<dynamic_buffer::const_iterator>& reader)
-{
-    tls_record record;
-
-    if(reader.read_record(record))
-    {
-	record_event event(record);
-	on_record(event);
-	
-	switch(record.get_type())
-	{
-	case tls_record::HANDSHAKE:
-	    handle_handshake(reader);
-	    break;
-	}
-    }
 }
 
 void beluga::tls_client::handle_handshake(tls_reader<dynamic_buffer::const_iterator>& reader)

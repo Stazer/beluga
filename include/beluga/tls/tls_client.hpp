@@ -69,7 +69,6 @@ namespace beluga
 
 	void initialize();
 
-	void handle_record(tls_reader<dynamic_buffer::const_iterator>& reader);
 	void handle_handshake(tls_reader<dynamic_buffer::const_iterator>& reader);
 	void handle_client_hello(tls_reader<dynamic_buffer::const_iterator>& reader);
     };
