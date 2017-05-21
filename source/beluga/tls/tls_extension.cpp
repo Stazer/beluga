@@ -1,16 +1,16 @@
 #include <beluga/tls/tls_extension.hpp>
 
-beluga::tls_extension::tls_extension(std::uint16_t type, const data_type& data):
+beluga::tls_extension::tls_extension(beluga::tls_extension::extension_type type, const data_type& data):
     type(type),
     data(data)
 {
 }
 
-void beluga::tls_extension::set_type(std::uint16_t type)
+void beluga::tls_extension::set_type(beluga::tls_extension::extension_type type)
 {
     this->type = type;
 }
-std::uint16_t beluga::tls_extension::get_type() const
+beluga::tls_extension::extension_type beluga::tls_extension::get_type() const
 {
     return type;
 }
