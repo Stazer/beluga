@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 #include <vector>
 
 namespace beluga
@@ -32,6 +33,8 @@ namespace beluga
 	const data_type& get_data() const;
         data_type& get_data();
 
+	std::string get_server_name() const;
+	
     private:
 	extension_type type;
         data_type data;
