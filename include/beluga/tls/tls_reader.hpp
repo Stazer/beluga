@@ -1,11 +1,12 @@
 #pragma once
 
-#include <beluga/protocol/protocol_reader.hpp>
+#include <type_traits>
+#include <beluga/buffer/buffer_reader.hpp>
 
 namespace beluga
 {
     template <typename iterator_type>
-    class tls_reader : public protocol_reader<iterator_type>
+    class tls_reader : public buffer_reader<iterator_type>
     {
     public:
 	template <typename container_type>
@@ -16,11 +17,11 @@ namespace beluga
 	bool read_handshake(tls_handshake& handshake);	
 	bool read_client_hello(tls_client_hello& client_hello);
 
-	bool read_session_id(std::uint64_t& session_id);
+	bool read_session_id(tls_client_hello::session_id_type& session_id);
 	bool read_cipher_suites(tls_client_hello::cipher_suites_type& cipher_suites);
 	bool read_compression_methods(tls_client_hello::compression_methods_type& compression_methods);
 	bool read_extensions(tls_client_hello::extensions_type& extensions);
-    };    
+    };
 }
 
 #include <beluga/tls/tls_reader.inl>

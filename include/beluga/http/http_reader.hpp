@@ -1,12 +1,12 @@
 #pragma once
 
-#include <beluga/protocol/protocol_reader.hpp>
+#include <beluga/buffer/buffer_reader.hpp>
 #include <boost/algorithm/string.hpp>
 
 namespace beluga
 {
     template <typename iterator_type>
-    class http_reader : public protocol_reader<iterator_type>
+    class http_reader : public buffer_reader<iterator_type>
     {
     public:
 	template <typename container_type>

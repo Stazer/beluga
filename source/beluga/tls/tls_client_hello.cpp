@@ -1,6 +1,6 @@
 #include <beluga/tls/tls_client_hello.hpp>
 
-beluga::tls_client_hello::tls_client_hello(std::uint16_t version, std::uint32_t gmt_unix_time, const random_bytes_type& random_bytes, std::uint32_t session_id, const cipher_suites_type& cipher_suites, const compression_methods_type& compression_methods, const extensions_type& extensions):
+beluga::tls_client_hello::tls_client_hello(version_type version, gmt_unix_time_type gmt_unix_time, const random_bytes_type& random_bytes, session_id_type session_id, const cipher_suites_type& cipher_suites, const compression_methods_type& compression_methods, const extensions_type& extensions):
     version(version),
     gmt_unix_time(gmt_unix_time),
     random_bytes(random_bytes),
@@ -11,20 +11,20 @@ beluga::tls_client_hello::tls_client_hello(std::uint16_t version, std::uint32_t 
 {
 }
 
-void beluga::tls_client_hello::set_version(std::uint16_t version)
+void beluga::tls_client_hello::set_version(version_type version)
 {
     this->version = version;
 }
-std::uint16_t beluga::tls_client_hello::get_version() const
+beluga::tls_client_hello::version_type beluga::tls_client_hello::get_version() const
 {
     return version;
 }
 
-void beluga::tls_client_hello::set_gmt_unix_time(std::uint32_t gmt_unix_time)
+void beluga::tls_client_hello::set_gmt_unix_time(gmt_unix_time_type gmt_unix_time)
 {
     this->gmt_unix_time = gmt_unix_time;
 }
-std::uint32_t beluga::tls_client_hello::get_gmt_unix_time() const
+beluga::tls_client_hello::gmt_unix_time_type beluga::tls_client_hello::get_gmt_unix_time() const
 {
     return gmt_unix_time;
 }
@@ -42,11 +42,11 @@ beluga::tls_client_hello::random_bytes_type& beluga::tls_client_hello::get_rando
     return random_bytes;
 }
 
-void beluga::tls_client_hello::set_session_id(std::uint32_t session_id)
+void beluga::tls_client_hello::set_session_id(session_id_type session_id)
 {
     this->session_id = session_id;
 }
-std::uint32_t beluga::tls_client_hello::get_session_id() const
+beluga::tls_client_hello::session_id_type beluga::tls_client_hello::get_session_id() const
 {
     return session_id;
 }

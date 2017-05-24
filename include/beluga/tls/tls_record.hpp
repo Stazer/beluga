@@ -7,20 +7,36 @@ namespace beluga
     class tls_record
     {
     public:
-	tls_record(std::uint8_t type = 0, std::uint16_t version = 0, std::uint16_t length = 0);
+	using record_type = std::uint8_t;
+
+	enum
+	{
+	    CHANGE_CIPHER_SPEC = 0x14,
+	    ALERT = 0x15,
+	    HANDSHAKE = 0x16,
+	    APPLICATION_DATA = 0x17,
+	    HEARTBEAT = 0x18,
+		
+	    UNKNOWN,
+	};
+
+        using version_type = std::uint16_t;
+	using length_type = std::uint16_t;
 	
-	void set_type(std::uint8_t type);
-	std::uint8_t get_type() const;
+	tls_record(record_type type = UNKNOWN, version_type version = 0, length_type length = 0);
+	
+	void set_type(record_type type);
+	record_type get_type() const;
 
-	void set_version(std::uint16_t version);
-	std::uint16_t get_version() const;
+	void set_version(version_type version);
+	version_type get_version() const;
 
-	void set_length(std::uint16_t length);
-	std::uint16_t get_length() const;
+	void set_length(length_type length);
+	length_type get_length() const;
 	
     private:
-	std::uint8_t type;
-	std::uint16_t version;
-	std::uint16_t length;
+	record_type type;
+	version_type version;
+	length_type length;
     };
 }

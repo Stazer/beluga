@@ -1,8 +1,7 @@
 #include <beluga/http/http_client.hpp>
 #include <beluga/http/http_reader.hpp>
 
-beluga::http_client::request_event::request_event(bool _continue, const http_request& request):
-    continue_event(_continue),
+beluga::http_client::request_event::request_event(const http_request& request):
     request(request)
 {
 }
@@ -49,10 +48,8 @@ void beluga::http_client::initialize()
 	     
 	     if(reader.read_request(request))
 	     {
-		 request_event request_event(true, request);
+		 request_event request_event(request);
 		 on_request(request_event);
-		 
-		 event.set_continue(request_event.get_continue());
 	     }
 	 });
 }
