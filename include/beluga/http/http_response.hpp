@@ -1,7 +1,7 @@
 #pragma once
 
 #include <beluga/http/http_version.hpp>
-#include <beluga/http/http_header.hpp>
+#include <beluga/http/http_headers.hpp>
 
 namespace beluga
 {

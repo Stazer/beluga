@@ -1,6 +1,6 @@
 #include <beluga/http/http_response.hpp>
 
-http_response(http_version version, const http_headers& headers):
+beluga::http_response::http_response(http_version version, const http_headers& headers):
     version(version),
     headers(headers)
 {
